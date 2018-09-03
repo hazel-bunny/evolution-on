@@ -29,6 +29,7 @@ struct OnIcon {
 	AppIndicator			*appindicator;
 	/* If somebody else rises Evolution window */
 	gboolean				external_shown;
+	GtkCheckMenuItem		*mi_show;
 #else
 	GtkStatusIcon			*icon;
 #endif
@@ -57,6 +58,11 @@ status_icon_activate_cb(struct OnIcon *_onicon);
 
 static gboolean
 button_press_cb(GtkWidget *widget, GdkEventButton *event, gpointer data);
+
+#ifdef HAVE_LIBAPPINDICATOR
+static void
+scroll_event_cb(GtkWidget *widget, gint delta, guint direction, gpointer data);
+#endif
 
 #ifndef HAVE_LIBAPPINDICATOR
 static void
@@ -123,6 +129,9 @@ create_icon(struct OnIcon *_onicon,
 	menu = create_popup_menu(_onicon);
 	app_indicator_set_menu(_onicon->appindicator, GTK_MENU(menu));
 	_onicon->external_shown = FALSE;
+
+	g_signal_connect(G_OBJECT(_onicon->appindicator), "scroll-event",
+			G_CALLBACK(scroll_event_cb), _onicon);
 
 #else /* !HAVE_LIBAPPINDICATOR */
 
@@ -197,6 +206,15 @@ button_press_cb(GtkWidget *widget, GdkEventButton *event, gpointer data)
 	return TRUE;
 }
 
+#ifdef HAVE_LIBAPPINDICATOR
+static void
+scroll_event_cb(GtkWidget *widget, gint delta, guint direction, gpointer data)
+{
+	struct OnIcon *_onicon = (struct OnIcon*)data;
+	gtk_check_menu_item_set_active(_onicon->mi_show, direction == 0);
+}
+#endif
+
 static GtkMenu *
 create_popup_menu(struct OnIcon *_onicon)
 {
@@ -212,6 +230,8 @@ create_popup_menu(struct OnIcon *_onicon)
 	gtk_widget_show(item);
 	g_signal_connect(GTK_CHECK_MENU_ITEM(item), "toggled",
 			G_CALLBACK(indicator_activated), _onicon);
+
+	_onicon->mi_show = item;
 #endif /* HAVE_LIBAPPINDICATOR */
 
 	item = gtk_image_menu_item_new_from_stock(GTK_STOCK_PROPERTIES, NULL);
