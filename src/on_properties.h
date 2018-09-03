@@ -23,7 +23,7 @@
 #define GCONF_KEY_NOTIF_ROOT			"/apps/evolution/eplugin/mail-notification/"
 #define GCONF_KEY_TRAY_ROOT				"/apps/evolution/eplugin/evolution-on/"
 
-#define NOTIF_SCHEMA					"org.gnome.evolution.plugin.mail-notification"
+#define NOTIFY_SCHEMA					"org.gnome.evolution.plugin.mail-notification"
 #define TRAY_SCHEMA						"org.gnome.evolution.plugin.evolution-on"
 #define CONF_KEY_HIDDEN_ON_STARTUP		"hidden-on-startup"
 #define CONF_KEY_HIDE_ON_MINIMIZE		"hide-on-minimize"
@@ -66,7 +66,7 @@ toggled_hidden_on_startup_cb(GtkWidget *widget, gpointer data)
 }
 
 static void
-toggled_hidde_on_minimize_cb(GtkWidget *widget, gpointer data)
+toggled_hidden_on_minimize_cb(GtkWidget *widget, gpointer data)
 {
 	g_return_if_fail(widget != NULL);
 	set_part_enabled(TRAY_SCHEMA, CONF_KEY_HIDE_ON_MINIMIZE,
@@ -160,8 +160,8 @@ sound_notify_idle_cb(gpointer user_data)
 	g_return_val_if_fail(data != NULL, FALSE);
 	settings = g_settings_new("org.gnome.evolution.plugin.mail-notification");
 	file = g_settings_get_string(settings, CONF_KEY_SOUND_FILE);
-	do_play_sound(is_part_enabled(NOTIF_SCHEMA, CONF_KEY_SOUND_BEEP),
-			is_part_enabled(NOTIF_SCHEMA, CONF_KEY_SOUND_USE_THEME),
+	do_play_sound(is_part_enabled(NOTIFY_SCHEMA, CONF_KEY_SOUND_BEEP),
+			is_part_enabled(NOTIFY_SCHEMA, CONF_KEY_SOUND_USE_THEME),
 			file);
 	g_object_unref(settings);
 	g_free(file);
@@ -366,7 +366,7 @@ get_cfg_widget()
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (check),
 			is_part_enabled(TRAY_SCHEMA, CONF_KEY_HIDE_ON_MINIMIZE));
 	g_signal_connect(G_OBJECT (check), "toggled",
-			G_CALLBACK(toggled_hidde_on_minimize_cb), NULL);
+			G_CALLBACK(toggled_hidden_on_minimize_cb), NULL);
 	gtk_widget_show(check);
 	gtk_box_pack_start(GTK_BOX(container), check, FALSE, FALSE, 0);
 

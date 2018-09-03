@@ -326,7 +326,7 @@ new_notify_status(EMEventTargetFolder *t, struct OnIcon *_onicon)
 
 #ifdef HAVE_LIBNOTIFY
 	/* Now check whether we're supposed to send notifications */
-	if (is_part_enabled(NOTIF_SCHEMA, CONF_KEY_STATUS_NOTIFICATION)) {
+	if (is_part_enabled(NOTIFY_SCHEMA, CONF_KEY_STATUS_NOTIFICATION)) {
 		gchar *safetext;
 
 		safetext = g_markup_escape_text(msg, strlen(msg));
