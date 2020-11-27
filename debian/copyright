@@ -1,0 +1,10 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: evolution-on
+Source: https://github.com/bzobl/evolution-on
+
+Files: *
+Copyright: Kostadin Atanasov <pranayama111@gmail.com>
+Copyright: Lucian Langa  <lucilanga@gnome.org>
+Copyright: Edwin Stang <gsubes@gmail.com>
+Copyright: Bernd Zobl <bzobl@gmx.net>
+License: GPL-2

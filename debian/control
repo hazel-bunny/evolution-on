@@ -1,0 +1,16 @@
+Source: evolution-on
+Section: gnome
+Maintainer: Bernd Zobl <bzobl@gmx.net>
+Build-Depends: debhelper (>=10), gnome-common, libgconf2-dev,
+  evolution-dev, libebook1.2-dev
+Standards-Version: 4.0.0
+Vcs-Git: https://github.com/bzobl/evolution-on
+Homepage: https://github.com/bzobl/evolution-on
+
+Package: evolution-on
+Architecture: any
+Depends: evolution
+Suggests: evolution-plugins
+Description: Tray icon for evolution
+  Plugin for evolution to allow minimizing to tray.
+
