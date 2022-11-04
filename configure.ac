@@ -56,17 +56,11 @@ PKG_CHECK_MODULES(TRAY_EPLUGIN,
 libnotify_minimum_version="0.5.1"
 
 dnl ***************
-dnl Libnotify Flags
+dnl Libnotify Flags - removed in favour of Evolution's own notifications - pending code cleanup
 dnl ***************
 LIBNOTIFY_CFLAGS=
 LIBNOTIFY_LIBS=
-PKG_CHECK_MODULES([LIBNOTIFY], [libnotify >= $libnotify_minimum_version], [HAVE_LIBNOTIFY="yes"], [HAVE_LIBNOTIFY="no"])
-if test "x$HAVE_LIBNOTIFY" = "xyes"; then
-	AC_DEFINE(HAVE_LIBNOTIFY, 1, [libnotify available])
-	libnotify="libnotify"
-else
-	libnotify=""
-fi
+libnotify=""
 AC_SUBST(LIBNOTIFY_CFLAGS)
 AC_SUBST(LIBNOTIFY_LIBS)
 LIBNOTIFY_S_VERSION=`$PKG_CONFIG --modversion libnotify`
