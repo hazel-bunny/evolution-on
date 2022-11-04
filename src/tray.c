@@ -85,15 +85,7 @@ gtkut_window_popup(GtkWidget *window)
 	}
 	gtk_window_set_skip_taskbar_hint(GTK_WINDOW(window), FALSE);
 	/* make sure the window is rised */
-#ifndef G_OS_WIN32
-	GdkWindow *gwindow = gtk_widget_get_window(GTK_WIDGET(window));
-	guint32 server_time = gdk_x11_get_server_time(gwindow);
-	gtk_window_present_with_time(GTK_WINDOW(window), server_time);
-#else
-	gtk_window_present(GTK_WINDOW(window));
-	/* ensure that the window is displayed at the top */
-	gdk_window_show(gtk_widget_get_window(window));
-#endif
+	gtk_window_present_with_time(GTK_WINDOW(window), GDK_CURRENT_TIME);
 }
 
 //helper method for toggling used on init for hidden on startup and on tray click
@@ -103,7 +95,6 @@ toggle_window()
 	if (gtk_widget_get_visible(GTK_WIDGET(on_icon.evo_window))) {
 		gtk_widget_hide(GTK_WIDGET(on_icon.evo_window));
 	} else {
-		gtk_widget_show(GTK_WIDGET(on_icon.evo_window));
 		gtkut_window_popup(GTK_WIDGET(on_icon.evo_window));
 	}
 
@@ -326,7 +317,7 @@ new_notify_status(EMEventTargetFolder *t, struct OnIcon *_onicon)
 
 #ifdef HAVE_LIBNOTIFY
 	/* Now check whether we're supposed to send notifications */
-	if (is_part_enabled(NOTIF_SCHEMA, CONF_KEY_STATUS_NOTIFICATION)) {
+	if (is_part_enabled(NOTIFY_SCHEMA, CONF_KEY_STATUS_NOTIFICATION)) {
 		gchar *safetext;
 
 		safetext = g_markup_escape_text(msg, strlen(msg));
