@@ -1,0 +1,11 @@
+Building Debian package
+=======================
+
+You can use gbp-cowbuilder for building the .deb file:
+
+After creating a cowbuilder/pbuilder for your
+distribution/architecture, run
+
+```
+gbp buildpackage --git-pbuilder --git-dist=buster
+```
